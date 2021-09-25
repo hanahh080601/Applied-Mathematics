@@ -1,9 +1,9 @@
 import numpy as np
 
 def qr(A):
-    m, n = A.shape
+    m = A.shape[0]
     Q = np.eye(m)
-    for i in range(n - (m == n)):
+    for i in range(m - 1):
         H = np.eye(m)
         #calculate Householder matrix i: rows and i: columns from A i: rows and ith column
         H[i:, i:] = make_householder(A[i:, i])
@@ -21,6 +21,7 @@ def make_householder(a):
     #find prependicular vector to mirror
     u = a / (a[0] + np.copysign(norm(a), a[0]))
     u[0] = 1
+    # Tạo ma trận đơn vị với kích thước là mxm
     H = np.eye(a.shape[0])
     #finding Householder projection
     H -= (2 / np.dot(u, u)) * u[:, None] @ u[None, :]
@@ -29,6 +30,7 @@ def make_householder(a):
 def find_eig_qr(A):
     pQ = np.eye(A.shape[0])
     X = A.copy()
+    # cải thiện độ chính xác với số epoch là 100
     for i in range(100):
             Q,R = qr(X)
             pQ = pQ @ Q;
@@ -43,7 +45,7 @@ for i in range(0,m):
     temp = [int(input()) for j in range(0,m)]
     matrix.append(temp) 
     
-print("Original matrix:")
+print("----------------Input--------------------")
 for i in range(m):
     print(matrix[i])
     
@@ -52,7 +54,11 @@ A = np.asarray(matrix, dtype='float')
 Q, R = qr(A)
 eigenvalues, eigenvectors = find_eig_qr(A)
 
-print("\nMatrix Q:\n", Q.round(3))
-print("\nMatrix R:\n", R.round(3))
-print("\nEigenvalues:\n", eigenvalues.round(3))
-print("\nEigenvectors:\n", eigenvectors.round(3))
+print("---------------Output--------------------")
+print("\nEigenvectors V:\n  v1       v2       v3\n", eigenvectors.round(3))
+print("\nEigenvalues diag(lamda): \n  lamda1 lamda2 lamda3 \n", eigenvalues.round(3))
+print("\nInverse Eigenvectors V-1:\n", np.linalg.inv(eigenvectors))
+'''
+ V-1 dùng thư viện numpy vì mục đích chính bài này là tìm vecto riêng (eigenvectors) 
+ và giá trị riêng (eigenvalues). Bài tính ma trận nghịch đảo có gửi đính kèm.
+'''
