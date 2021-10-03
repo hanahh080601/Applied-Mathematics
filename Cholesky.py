@@ -11,7 +11,7 @@ def InputMatrix():
     
     print("\nInput matrix:")
     for i in range(m):
-        print(matrix[i])
+        print( matrix[i])
     return matrix
 
 def Check(a):
@@ -42,9 +42,10 @@ def Cholesky(a):
                 L[j,i] = (a[j,i] - np.sum(L[j, :i] * L[i, :i])) / L[i,i]
     return L
 
-matrix = InputMatrix()
-if(Check(matrix)):    
-    L = Cholesky(matrix)
-    print("\nOutput - Matrix L:\n", L)
-else:
-    print("Ma tran A khong the phan ra theo phuong phap Cholesky!")
+if __name__== "__main__":
+    matrix = InputMatrix()
+    if(Check(matrix)):    
+        L = Cholesky(matrix)
+        print("\nOutput - Matrix L:\n", L)
+    else:
+        print("Ma tran A khong the phan ra theo phuong phap Cholesky!")
